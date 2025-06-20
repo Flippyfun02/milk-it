@@ -1,6 +1,7 @@
 import re
 from unicodedata import numeric
 from fraction import Fraction
+import inflect
 
 def to_float(str) -> float:
     """
@@ -43,3 +44,15 @@ def to_mixed_num(decimal:float) -> str:
         return f"{remainder.numerator}/{remainder.denominator}"
     else:
         return f"{whole} {remainder.numerator}/{remainder.denominator}"
+    
+def singularize(word):
+    """Converts plurals to singular"""
+    p = inflect.engine()
+    singular = p.singular_noun(word)
+    return singular if singular else word
+
+def pluralize(word):
+    """Converts singulars to plural"""
+    p = inflect.engine()
+    plural = p.plural_noun(word)
+    return plural if plural else word
