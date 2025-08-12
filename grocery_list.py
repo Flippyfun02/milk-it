@@ -49,12 +49,15 @@ class Ingredient(dataclasses.ParsedIngredient):
         super().__init__(i.name, i.size, i.amount, i.preparation, i.comment, 
                          i.purpose, i.foundation_foods, i.sentence)
         self.quantity = self.quantify()
-        self.title = singularize(self.name[0].text)
+        self.title = singularize(self.name[0].text.lower())
     
     def quantify(self):
         if len(self.amount) > 0:
             amt = self.amount[0]
-            q = to_float(str(self.amount[0].quantity))
+            try:
+                q = to_float(str(self.amount[0].quantity))
+            except TypeError: 
+                q = 1 # amount cannot be parsed
             unit = amt.unit if is_valid_unit(amt.unit) else 'count'
         else:
             q = 1.0
@@ -79,16 +82,14 @@ class Ingredient(dataclasses.ParsedIngredient):
         p = inflect.engine()
         amount = self.quantity.magnitude
         if self.quantity.units != UREG.dimensionless:
-            if amount >= 1:
+            if amount > 1:
                 # ex: "4 cloves of garlic"
                 unit = p.plural_noun(str(self.quantity.units), amount)
             else:
                 # ex: "1/2 cup of flour"
-                unit = p.plural_noun(str(self.quantity.units), 1)
-            name = self.title
+                unit = str(self.quantity.units)
+            return f"{to_mixed_num(amount)} {unit} of {self.title}"
         else:
             # No units (ex: "1 strawberry" | "2 oranges")
-            name = p.plural_noun(self.title, self.quantity.magnitude)
-            return f"{to_mixed_num(amount)} {name}"
-
-        return f"{to_mixed_num(amount)} {unit} of {name}"
+            item = p.plural_noun(self.title, self.quantity.magnitude)
+            return f"{to_mixed_num(amount)} {item}"
