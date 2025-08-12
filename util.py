@@ -8,7 +8,7 @@ def to_float(str) -> float:
     Converts numeric string and/or unicode to a float
     """
     if not str:
-        raise ValueError(f"Numeric string '{str}' must be a fraction or mixed number")
+        raise TypeError(f"Numeric string '{str}' must be of type 'str'")
     sum = 0
     # Considers mixed fraction parts separately
     for s in re.split(r" |([\u00BC-\u00BE\u2150-\u215E])", str, maxsplit=1):
