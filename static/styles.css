@@ -1,0 +1,76 @@
+@media (max-width: 991.98px) { /* targets collapsed navbar at lg breakpoint and below */
+  #navbarSupportedContent .navbar-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* right-align items vertically stacked */
+  }
+  #navbarSupportedContent .navbar-nav .nav-link {
+    text-align: right; /* right-align the link text */
+  }
+}
+
+.custom-navbar-color {
+  background-color: #f6f6f6; /* Your desired color */
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.logo h1 {
+  font-size: 60pt;
+}
+
+#logo-cow {
+    width: 30%;
+    min-width: 300px;
+}
+
+.input-group {
+    margin: auto;
+    width: 50%;
+    min-width: 400px;
+    height: 45px;
+}
+
+.form-control,
+.btn-outline-secondary {
+  border: 3px solid #94c120;
+}
+
+.input-group .form-control {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.input-group .btn {
+  background-color: #94c120;
+  color: white;
+  font-weight: bold;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.input-group .btn:hover {
+  background-color: #82ab1b;
+  border-color: #82ab1b;
+}
+
+.input-group .btn:active {
+  background-color: #799f19 !important;
+}
+
+.input-group:focus-within {
+  box-shadow: 0 0 0 0.25rem rgba(148, 193, 32, 0.5); /* same style as bootstrap's focus ring */
+  border-radius: 30px; /* match your rounded shape */
+}
+
+.input-group .form-control:focus {
+  box-shadow: none; /* remove default Bootstrap focus glow on individual elements */
+  border-color: #82ab1b;
+}
