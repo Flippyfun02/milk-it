@@ -1,5 +1,6 @@
 from util import to_float, to_mixed_num, singularize
 from ingredient_parser import dataclasses, parse_ingredient
+from recipe_scrapers import scrape_me
 from culinary_units import is_valid_unit, UREG
 from pint import errors
 import inflect
@@ -8,6 +9,11 @@ class GroceryList():
 
     def __init__(self):
         self.items = {}
+
+    def add_link(self, url):
+        ingredients = scrape_me(url).ingredients()
+        for ingredient in ingredients:
+            self.add(ingredient)
 
     def add_all(self, ingredients):
         """Adds list of ingredients to items dictionary"""

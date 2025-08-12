@@ -1,4 +1,3 @@
-from recipe_scrapers import scrape_me
 from grocery_list import GroceryList
 
 def main():
@@ -15,8 +14,7 @@ def main():
             case 1:
                 try:
                     url = input("URL: ").strip()
-                    scraper = scrape_me(url)
-                    grocery_list.add_all(scraper.ingredients())
+                    grocery_list.add_link(url)
                     print("Success!")
                 except ValueError as e:
                     print("Failed,", e)
