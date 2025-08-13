@@ -1,2 +1,2 @@
 # milk-it
-web scraper for recipes
+web scraper for recipes and grocery list manager
