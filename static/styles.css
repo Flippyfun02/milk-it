@@ -1,3 +1,14 @@
+:root { /* variables */
+  --green: #94c120;
+  --light-green: #e1e5d0;
+  --outline-green: #82ab1b;
+  --click-green: #799f19;
+  --cow-pink: #f1a49b;
+  --cow-white: #f6f6f6;
+  --input-br: 30px;
+  --list-br: 15px;
+}
+
 @media (max-width: 991.98px) { /* targets collapsed navbar at lg breakpoint and below */
   #navbarSupportedContent .navbar-nav {
     width: 100%;
@@ -11,12 +22,12 @@
 }
 
 .custom-navbar-color {
-  background-color: #f6f6f6; /* Your desired color */
+  background-color: var(--cow-white); /* Your desired color */
 }
 
 .search-container {
-  margin-top: 50px;
-  margin-bottom: 100px;
+  padding-top: 80px;
+  padding-bottom: 110px;
 }
 
 .logo {
@@ -44,47 +55,107 @@
 
 .form-control,
 .btn-outline-secondary {
-  border: 3px solid #94c120;
+  border: 3px solid var(--green);
 }
 
 .input-group .form-control {
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  border-top-left-radius: var(--input-br);
+  border-bottom-left-radius: var(--input-br);
+  background-color: white;
 }
 
 .input-group .btn {
-  background-color: #94c120;
+  background-color: var(--green);
   color: white;
   font-weight: bold;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-top-right-radius: var(--input-br);
+  border-bottom-right-radius: var(--input-br);
 }
 
 .input-group:focus-within .btn,
 .input-group .btn:hover {
-  background-color: #82ab1b;
-  border-color: #82ab1b;
+  background-color: var(--outline-green);
+  border-color: var(--outline-green);
 }
 
 .input-group .btn:active,
 .input-group .btn.press {
-  background-color: #799f19 !important;
-  border-color: #799f19 !important;
+  background-color: var(--click-green) !important;
+  border-color: var(--click-green) !important;
 }
 
 .input-group:focus-within {
   box-shadow: 0 0 0 0.25rem rgba(148, 193, 32, 0.5); /* same style as bootstrap's focus ring */
-  border-radius: 30px; /* match your rounded shape */
+  border-radius: var(--input-br); /* match your rounded shape */
 }
 
 .input-group .form-control:focus {
   box-shadow: none; /* remove default Bootstrap focus glow on individual elements */
-  border-color: #82ab1b;
+  border-color: var(--outline-green);
 }
 
 .error-message {
-  color: #f1a49b;
+  color: var(--cow-pink);
   font-size: 9pt;
   text-align: center;
   margin-top: -10px;
+}
+
+.display {
+  background-color: var(--green);
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.display h1 {
+  font-weight: bold;
+  color: white;
+}
+
+.input-align {
+  margin: auto;
+  width: 50%;
+  min-width: 350px;
+}
+
+.display .input-align {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  border-radius: var(--list-br);
+}
+
+.list li {
+  font-size: 12pt;
+  padding: 10px;
+  padding-left: var(--list-br);
+  padding-right: var(--list-br);
+  border-right: 6px solid var(--outline-green);
+  border-left: 3px solid var(--outline-green);
+}
+
+.list li:nth-child(odd) {
+    background-color: #f4f4f4;
+}
+
+.list li:nth-child(even) {
+    background-color: var(--light-green);
+}
+
+.list li:first-child {
+    border-top-left-radius: var(--list-br);
+    border-top-right-radius: var(--list-br);
+    border-top: 3px solid var(--outline-green);
+}
+
+.list li:last-child {
+    border-bottom-left-radius: var(--list-br);
+    border-bottom-right-radius: var(--list-br);
+    border-bottom: 6px solid var(--outline-green);
 }
