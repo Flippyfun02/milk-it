@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from grocery_list import GroceryList
+from list_manager.grocery_list import GroceryList
 
 app = FastAPI()
 grocery_list = GroceryList()
