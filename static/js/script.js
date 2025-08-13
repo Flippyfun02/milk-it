@@ -18,7 +18,7 @@ goBtn.addEventListener("click", async () => {
     });
     const data = await response.json();
     const input_error = document.getElementById("input-error")
-    input_error.textContent = ""
+    input_error.textContent = " ";
 
     // validate data
     if (data.code === 2) {
@@ -27,10 +27,11 @@ goBtn.addEventListener("click", async () => {
     else if (data.code === 3) {
         input_error.textContent = "Unable to find recipe :("
     }
-    else {
+    else if (data.code != 1) {
         // reveal ingredient container
         document.getElementById("ingredient-container").hidden = false;
         const ingredientList = document.getElementById("ingredient-list");
+        ingredientList.innerHTML = "";
         // display list of items
         for (index in data.items) {
             let row = document.createElement("li");
@@ -39,6 +40,7 @@ goBtn.addEventListener("click", async () => {
         }
         // ingredients.textContent = JSON.stringify(data.items);
         recipe_url.value = "";
+        input_error.textContent = " ";
     }
 });
 

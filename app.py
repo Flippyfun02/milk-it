@@ -23,5 +23,4 @@ class RecipeRequest(BaseModel):
 @app.post("/add-recipe")
 def get_ingredients(recipe_url: RecipeRequest):
     # Here you’d plug in your existing Python scraper
-    c = grocery_list.add_link(recipe_url.recipe_url)
-    return {"items" : grocery_list.get_items(), "code" : c}
+    return grocery_list.add_link(recipe_url.recipe_url)

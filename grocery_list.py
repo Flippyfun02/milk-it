@@ -11,17 +11,21 @@ class GroceryList():
         self.items = {}
 
     def add_link(self, url):
+        gl = []
+        code = 0
         if not url:
-            return 1 # blank response
-        if not is_valid_url(url):
-            return 2 # not a url
-        try:
-            ingredients = scrape_me(url).ingredients()
-            for ingredient in ingredients:
-                self.add(ingredient)
-        except:
-            return 3 # unable to find recipe
-        return 0
+            code = 1 # blank response
+        elif not is_valid_url(url):
+            code = 2 # not a url
+        else:
+            try:
+                ingredients = scrape_me(url).ingredients()
+                for ingredient in ingredients:
+                    self.add(ingredient)
+                    gl.append(str(ingredient))
+            except:
+                code = 3 # unable to find recipe
+        return {"items" : gl, "code" : code}
 
 
     def add_all(self, ingredients):
