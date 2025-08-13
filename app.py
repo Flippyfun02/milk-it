@@ -18,10 +18,10 @@ async def home():
     return HTMLResponse(content=html_content)
 
 class RecipeRequest(BaseModel):
-    url: str
+    recipe_url: str
 
-@app.post("/convert")
-def convert(request: RecipeRequest):
+@app.post("/add-recipe")
+def get_ingredients(recipe_url: RecipeRequest):
     # Here you’d plug in your existing Python scraper
-    
-    return {"ingredients": grocery_list}
+    c = grocery_list.add_link(recipe_url.recipe_url)
+    return {"items" : grocery_list.get_items(), "code" : c}

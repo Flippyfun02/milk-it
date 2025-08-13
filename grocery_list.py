@@ -1,4 +1,4 @@
-from util import to_float, to_mixed_num, singularize
+from util import to_float, to_mixed_num, singularize, is_valid_url
 from ingredient_parser import dataclasses, parse_ingredient
 from recipe_scrapers import scrape_me
 from culinary_units import is_valid_unit, UREG
@@ -11,9 +11,18 @@ class GroceryList():
         self.items = {}
 
     def add_link(self, url):
-        ingredients = scrape_me(url).ingredients()
-        for ingredient in ingredients:
-            self.add(ingredient)
+        if not url:
+            return 1 # blank response
+        if not is_valid_url(url):
+            return 2 # not a url
+        try:
+            ingredients = scrape_me(url).ingredients()
+            for ingredient in ingredients:
+                self.add(ingredient)
+        except:
+            return 3 # unable to find recipe
+        return 0
+
 
     def add_all(self, ingredients):
         """Adds list of ingredients to items dictionary"""
@@ -38,17 +47,17 @@ class GroceryList():
                     ingredient.title = name + u"\u200b"
                     name = ingredient.title
                 
-    def to_json(self):
+    def get_items(self):
         gl = []
         for item in self.items.keys():
             gl.append(str(self.items[item]))
-        return {"items" : gl}
+        return gl
     
-    def to_ingredient_json(self):
+    def get_ingredients(self):
         gl = []
         for item in self.items.keys():
             gl.append(self.items[item])
-        return {"items" : gl}
+        return gl
 
     def __str__(self):
         """Converts GroceryList to printable"""

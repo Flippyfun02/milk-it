@@ -14,12 +14,16 @@
   background-color: #f6f6f6; /* Your desired color */
 }
 
+.search-container {
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
 .logo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
 }
 
 .logo h1 {
@@ -34,7 +38,7 @@
 .input-group {
     margin: auto;
     width: 50%;
-    min-width: 400px;
+    min-width: 350px;
     height: 45px;
 }
 
@@ -56,13 +60,16 @@
   border-bottom-right-radius: 30px;
 }
 
+.input-group:focus-within .btn,
 .input-group .btn:hover {
   background-color: #82ab1b;
   border-color: #82ab1b;
 }
 
-.input-group .btn:active {
+.input-group .btn:active,
+.input-group .btn.press {
   background-color: #799f19 !important;
+  border-color: #799f19 !important;
 }
 
 .input-group:focus-within {
@@ -73,4 +80,11 @@
 .input-group .form-control:focus {
   box-shadow: none; /* remove default Bootstrap focus glow on individual elements */
   border-color: #82ab1b;
+}
+
+.error-message {
+  color: #f1a49b;
+  font-size: 9pt;
+  text-align: center;
+  margin-top: -10px;
 }
