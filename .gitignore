@@ -1,6 +1,7 @@
 # Irrelevant files
 tbd.py
 complex_inflect.py
+main.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
