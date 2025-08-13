@@ -56,3 +56,10 @@ def pluralize(word):
     p = inflect.engine()
     plural = p.plural_noun(word)
     return plural if plural else word
+
+def is_valid_url(url):
+    """Determines if a given url is valid"""
+    url_pattern = re.compile(
+        r'^(https?://)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)$'
+    )
+    return True if url_pattern.match(url) else False
