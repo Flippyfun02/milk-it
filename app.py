@@ -4,7 +4,10 @@ from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from grocery_list import GroceryList
+
 app = FastAPI()
+grocery_list = GroceryList()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -20,5 +23,5 @@ class RecipeRequest(BaseModel):
 @app.post("/convert")
 def convert(request: RecipeRequest):
     # Here you’d plug in your existing Python scraper
-    grocery_list = ["eggs", "milk", "flour"]  # placeholder
+    
     return {"ingredients": grocery_list}

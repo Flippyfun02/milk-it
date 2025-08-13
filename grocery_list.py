@@ -38,7 +38,18 @@ class GroceryList():
                     ingredient.title = name + u"\u200b"
                     name = ingredient.title
                 
+    def to_json(self):
+        gl = []
+        for item in self.items.keys():
+            gl.append(str(self.items[item]))
+        return {"items" : gl}
     
+    def to_ingredient_json(self):
+        gl = []
+        for item in self.items.keys():
+            gl.append(self.items[item])
+        return {"items" : gl}
+
     def __str__(self):
         """Converts GroceryList to printable"""
         print("---------------------\nGrocery List \n---------------------")
