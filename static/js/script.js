@@ -21,13 +21,13 @@ goBtn.addEventListener("click", async () => {
     input_error.textContent = " ";
 
     // validate data
-    if (data.code === 2) {
+    if (response.status === 400) {
         input_error.textContent = "Please enter a recipe link!"
     }
-    else if (data.code === 3) {
+    else if (response.status === 404) {
         input_error.textContent = "Unable to find recipe :("
     }
-    else if (data.code != 1) {
+    else if (response.status === 200) {
         // reveal ingredient container
         document.getElementById("ingredient-container").hidden = false;
         const ingredientList = document.getElementById("ingredient-list");
@@ -55,4 +55,49 @@ document.addEventListener("keyup", (e) => {
     if (e.key == "Enter") {
         goBtn.classList.remove("press"); // Simulate button click
     }
+});
+
+// change button colors between white and green
+const listBtn = document.getElementById("open-modal");
+const greenSections = document.querySelectorAll(".green-bg");
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            listBtn.classList.remove("btn-primary")
+            listBtn.classList.add("btn-primary-reverse");
+        }
+        else {
+            listBtn.classList.remove("btn-primary-reverse")
+            listBtn.classList.add("btn-primary")
+        }
+    });
+}, {
+    threshold: 0.1
+});
+
+greenSections.forEach(section => observer.observe(section));
+
+// display grocery list
+document.addEventListener("DOMContentLoaded", () => {
+    const groceryList = document.getElementById("grocery-list");
+    const errorMessage = document.querySelector(".modal-body .error-message");
+    // detect when modal is about to be shown
+    const groceryModal = document.getElementById("groceryListModal");
+    groceryModal.addEventListener("show.bs.modal", async () => {
+        const response = await fetch("/grocery-list");
+        groceryList.innerHTML = "";
+        if (response.status === 200) {
+            // create items
+            errorMessage.hidden = true;
+            const data = await response.json();
+            for (index in data.items) {
+                let row = document.createElement("li");
+                row.textContent = data.items[index];
+                groceryList.appendChild(row);
+            }
+        }
+        else if (response.status === 204) { // empty list
+            errorMessage.hidden = false;
+        }
+    });
 });

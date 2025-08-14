@@ -60,8 +60,7 @@
   height: 45px;
 }
 
-.form-control,
-.btn-outline-secondary {
+.form-control {
   border: 3px solid var(--green);
 }
 
@@ -71,24 +70,32 @@
   background-color: white;
 }
 
-.input-group .btn {
+.btn-primary {
   background-color: var(--green);
   color: white;
   font-weight: bold;
+  
+  padding-left: 10px;
+  padding-right: 10px;
+  border: none;
+}
+
+.input-group .btn-primary{
   border-top-right-radius: var(--input-br);
   border-bottom-right-radius: var(--input-br);
 }
 
-.input-group:focus-within .btn,
-.input-group .btn:hover {
+.input-group:focus-within .btn-primary,
+.btn-primary:hover {
   background-color: var(--outline-green);
   border-color: var(--outline-green);
 }
 
-.input-group .btn:active,
-.input-group .btn.press {
+.btn-primary:active,
+.btn-primary.press {
   background-color: var(--click-green) !important;
   border-color: var(--click-green) !important;
+  color: white;
 }
 
 .input-group:focus-within {
@@ -166,4 +173,48 @@
   border-bottom-left-radius: var(--list-br);
   border-bottom-right-radius: var(--list-br);
   border-bottom: 6px solid var(--outline-green);
+}
+
+.open-modal {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  border-radius: 50%;
+  padding: 15px;
+}
+
+.btn-primary-reverse {
+  background-color: white;
+  color: var(--green);
+  border: none;
+}
+
+.btn-primary-reverse:hover {
+  background-color: var(--cow-white);
+  color: var(--green);
+}
+
+.btn-primary-reverse:active {
+  background-color: rgb(233, 233, 233) !important;
+  color: var(--green) !important;
+}
+
+.modal-header {
+  background-color: var(--green);
+}
+
+.modal-content {
+  border-radius: var(--list-br);
+  border: 2px solid var(--click-green);
+}
+
+.modal-title {
+  color: white;
+  font-weight: bold;
+}
+.modal-body .error-message {
+  font-size: 12pt;
+  color: gray;
+  margin: auto;
 }

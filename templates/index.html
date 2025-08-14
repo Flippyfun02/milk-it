@@ -3,11 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- My Scripts & Stylesheet -->
     <script src="../static/js/script.js" defer></script>
     <link rel="stylesheet" href="../static/styles.css"> 
+
     <title>milk-it!</title>
     <link rel="icon" type="image/x-icon" href="../static/images/cowhead.svg">
 </head>
@@ -36,6 +46,33 @@
             </div>
         </div>
     </nav>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary open-modal" id="open-modal" data-bs-toggle="modal" data-bs-target="#groceryListModal">
+        <i class="fa fa-shopping-cart" style="font-size: 24pt"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="groceryListModal" tabindex="-1" aria-labelledby="groceryListLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 no-select-text" id="groceryListLabel">grocery list</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="error-message no-select-text">Add items to see your list!</p>
+                <ul id="grocery-list" class="list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-copy"></i> copy 
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
     <div class="search-container">
         <div class="logo no-select-text">
             <h1>milk-it!</h1>
@@ -43,14 +80,18 @@
         </div>
         <div class="input-group mb-3">
             <input id="recipe-url" type="text" class="form-control" placeholder="add recipe" aria-label="add" aria-describedby="basic-addon2">
-            <button id="add-recipe" class="btn btn-outline-secondary" type="button">GO!</button>
+            <button id="add-recipe" class="btn-primary" type="button">GO!</button>
         </div>
         <p id="input-error" class="error-message no-select-text"></p>
     </div>
-    <div id="ingredient-container" class="display" hidden="true">
+    <div id="ingredient-container" class="display green-bg">
         <div class="input-align">
             <h1>ingredients</h1>
             <ul id="ingredient-list" class="list">
+                <li>apples</li>
+                <li>oranges</li>
+                <li>bananas</li>
+                <li>peaches</li>
             </ul>
         </div>
     </div>
