@@ -1,5 +1,7 @@
 const goBtn = document.getElementById("add-recipe");
 const input = document.getElementById("recipe-url");
+const yield = document.getElementById("servingYield");
+let originalYield = 1;
 
 // when user adds recipe
 goBtn.addEventListener("click", async () => {
@@ -7,7 +9,7 @@ goBtn.addEventListener("click", async () => {
     let url = recipe_url.value;
 
     // send POST request to FastAPI
-    const response = await fetch("/add-recipe", {
+    const response = await fetch("/search-recipe", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -31,14 +33,16 @@ goBtn.addEventListener("click", async () => {
         // reveal ingredient container
         document.getElementById("ingredient-container").hidden = false;
         const ingredientList = document.getElementById("ingredient-list");
+        originalYield = parseInt(data.yields.split(" ")[0]);
+        yield.textContent = originalYield;
         ingredientList.innerHTML = "";
         // display list of items
-        for (index in data.items) {
+        for (index in data.ingredients) {
             let row = document.createElement("li");
-            row.textContent = data.items[index];
+            row.textContent = data.ingredients[index];
             ingredientList.appendChild(row);
         }
-        // ingredients.textContent = JSON.stringify(data.items);
+        // ingredients.textContent = JSON.stringify(data.ingredients);
         recipe_url.value = "";
         input_error.textContent = " ";
     }
@@ -90,14 +94,38 @@ document.addEventListener("DOMContentLoaded", () => {
             // create items
             errorMessage.hidden = true;
             const data = await response.json();
-            for (index in data.items) {
+            for (index in data.ingredients) {
                 let row = document.createElement("li");
-                row.textContent = data.items[index];
+                row.textContent = data.ingredients[index];
                 groceryList.appendChild(row);
             }
         }
         else if (response.status === 204) { // empty list
             errorMessage.hidden = false;
         }
+    });
+});
+
+const increaseServingBtn = document.getElementById("increaseServing");
+increaseServingBtn.addEventListener("click", () => {
+    if (yield.textContent <= 99) {
+        yield.textContent = parseInt(yield.textContent) + 1
+    }
+});
+
+const decreaseServingBtn = document.getElementById("decreaseServing");
+decreaseServingBtn.addEventListener("click", () => {
+    if (yield.textContent > 1) {
+        yield.textContent = parseInt(yield.textContent) - 1
+    }
+});
+
+const radioBtns = document.querySelectorAll(".btn-group .btn-check");
+radioBtns.forEach(btn => {
+    btn.addEventListener("change", () => {
+        const checkedBtn = document.querySelector('.btn-group .btn-check:checked');
+        const label = document.querySelector(`label[for="${checkedBtn.id}"]`)
+        const scale = parseFloat(label.textContent.substring(0, label.textContent.length - 1));
+        yield.textContent = originalYield * scale;
     });
 });

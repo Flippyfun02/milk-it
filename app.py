@@ -20,14 +20,17 @@ async def home():
 class RecipeRequest(BaseModel):
     recipe_url: str = Field(min_length=1)
 
-@app.post("/add-recipe")
+@app.post("/search-recipe")
 def get_ingredients(recipe_url: RecipeRequest):
-    ingredients, code = grocery_list.add_link(recipe_url.recipe_url)
-    print(code)
-    return JSONResponse(content={"items": ingredients}, status_code=code)
+    recipe, code = grocery_list.search_link(recipe_url.recipe_url)
+    return JSONResponse(content=recipe, status_code=code)
 
 @app.get("/grocery-list")
 def get_grocery_list():
     items = grocery_list.get_items()
     return JSONResponse(content={"items": items}, status_code=
                         status.HTTP_200_OK if items else status.HTTP_404_NOT_FOUND)
+
+@app.post("/scale")
+def scale(multiplier: float):
+    return ...

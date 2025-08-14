@@ -10,21 +10,17 @@ class GroceryList():
     def __init__(self):
         self.items = {}
 
-    def add_link(self, url):
-        gl = []
+    def search_link(self, url):
         code = 0
         if not is_valid_url(url):
             code = 400 # not a url
         else:
             try:
-                ingredients = scrape_me(url).ingredients()
-                for ingredient in ingredients:
-                    self.add(ingredient)
-                    gl.append(str(ingredient))
+                recipe = scrape_me(url).to_json()
                 code = 200
             except:
                 code = 404 # unable to find recipe
-        return gl, code
+        return recipe, code
 
 
     def add_all(self, ingredients):

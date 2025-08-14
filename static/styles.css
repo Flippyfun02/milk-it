@@ -3,6 +3,7 @@
   --light-green: #e1e5d0;
   --outline-green: #82ab1b;
   --click-green: #799f19;
+  --dbl-click-green: #729518;
   --cow-pink: #f1a49b;
   --cow-white: #f6f6f6;
   --input-br: 30px;
@@ -124,7 +125,6 @@
 
 .display h1 {
   font-weight: bold;
-  color: white;
 }
 
 .input-align {
@@ -144,6 +144,7 @@
   padding: 0px;
   margin: 0px;
   border-radius: var(--list-br);
+  color: black;
 }
 
 .list li {
@@ -215,6 +216,86 @@
 }
 .modal-body .error-message {
   font-size: 12pt;
-  color: gray;
+  color: black;
   margin: auto;
+}
+
+.plus-minus,
+.btn-secondary {
+  background-color: var(--outline-green);
+  color: white;
+  border: none;
+  border-radius: var(--input-br);
+  padding: 10px;
+}
+
+.btn-secondary{
+  font-weight: bold;
+}
+
+/* Hover (standalone + button group) */
+.btn-secondary:hover,
+.btn-check:hover + .btn-secondary {
+  background-color: var(--click-green);
+}
+
+/* Active or checked (standalone + button group) */
+.btn-secondary:active,
+.btn-check:active + .btn-secondary,
+.btn-check:checked + .btn-secondary {
+  background-color: var(--dbl-click-green) !important;
+}
+
+.input-align .btn-secondary {
+  width: 70px;
+  margin-left: auto;
+}
+
+.green-bg {
+  color: white;
+}
+
+.servings-btn-bar,
+.plus-minus {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start !important;
+}
+
+.servings-btn-bar {
+  margin-bottom: 10px;
+  flex-flow: row wrap;
+  overflow: hidden;
+}
+
+.plus-minus {
+  min-width: 160px;
+  margin: 0px;
+  flex-shrink: 0;
+}
+
+.plus-minus button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  -webkit-text-stroke: 2px;
+  border-radius: 50%;
+}
+
+.plus-minus button:hover {
+  background-color: #00000010;
+}
+
+.plus-minus button:active {
+  background-color: #00000015;
+}
+
+.plus-minus p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.btn-group .btn-secondary {
+  font-weight: 500;
 }

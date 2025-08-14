@@ -83,15 +83,38 @@
         </div>
         <p id="input-error" class="error-message no-select-text"></p>
     </div>
-    <div id="ingredient-container" class="display green-bg" hidden="true">
+    <div id="ingredient-container" class="display green-bg">
         <div class="input-align">
-            <h1>ingredients</h1>
-            <ul id="ingredient-list" class="list">
-                <!-- <li>apples</li>
-                <li>oranges</li>
-                <li>bananas</li>
-                <li>peaches</li> -->
-            </ul>
+            <h1 class="no-select-text">ingredients</h1>
+            <div class="view-ingredients">
+                <div class="servings-btn-bar">
+                    <div class="plus-minus">
+                        <button id="decreaseServing"><i class="bi bi-dash"></i></button>
+                        <p><span id="servingYield">1</span> servings</p>
+                        <button id="increaseServing"><i class="bi bi-plus"></i></button>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="scale serving size">
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                        <label class="btn btn-secondary" for="btnradio1">0.5x</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked>
+                        <label class="btn btn-secondary" for="btnradio2">1x</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                        <label class="btn btn-secondary" for="btnradio3">2x</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                        <label class="btn btn-secondary" for="btnradio4">3x</label>
+                    </div>
+                </div>
+                <ul id="ingredient-list" class="list">
+                    <!-- <li>apples</li>
+                    <li>oranges</li>
+                    <li>bananas</li>
+                    <li>peaches</li> -->
+                </ul>
+            </div>
+            <button id="addIngredients" class="btn btn-secondary">add</button>
         </div>
     </div>
 </body>
