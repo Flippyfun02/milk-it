@@ -94,16 +94,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const increaseServingBtn = document.getElementById("increaseServing");
-increaseServingBtn.addEventListener("click", () => {
+increaseServingBtn.addEventListener("click", async () => {
     if (yield.textContent <= 99) {
-        yield.textContent = parseInt(yield.textContent) + 1
+        let servings = parseInt(yield.textContent) + 1;
+
+        let response = await fetch("/get-recipe");
+        const recipe = await response.json();
+
+        let scale = servings / recipe.yields
+        fetchRecipe(scale).then(data => {
+            const ingredientList = document.getElementById("ingredient-list");
+            yield.textContent = data.servings;
+            // rewrite ingredient list
+            write_list(ingredientList, data.ingredients)
+        });
     }
+    
 });
 
 const decreaseServingBtn = document.getElementById("decreaseServing");
-decreaseServingBtn.addEventListener("click", () => {
+decreaseServingBtn.addEventListener("click", async () => {
     if (yield.textContent > 1) {
-        yield.textContent = parseInt(yield.textContent) - 1
+        let servings = parseInt(yield.textContent) - 1
+
+        let response = await fetch("/get-recipe");
+        const recipe = await response.json();
+
+        let scale = servings / recipe.yields
+        fetchRecipe(scale).then(data => {
+            const ingredientList = document.getElementById("ingredient-list");
+            yield.textContent = data.servings;
+            // rewrite ingredient list
+            write_list(ingredientList, data.ingredients)
+        });
     }
 });
 
@@ -112,25 +135,32 @@ radioBtns.forEach(btn => {
     btn.addEventListener("change", async () => {
         const checkedBtn = document.querySelector('.btn-group .btn-check:checked');
         const label = document.querySelector(`label[for="${checkedBtn.id}"]`)
+       
         const scale = parseFloat(label.textContent.substring(0, label.textContent.length - 1));
-        
-        const response = await fetch("/scale-recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                multiplier: scale
-            })
+        fetchRecipe(scale).then(data => {
+            const ingredientList = document.getElementById("ingredient-list");
+            yield.textContent = data.servings;
+            // rewrite ingredient list
+            write_list(ingredientList, data.ingredients)
         });
-        const data = await response.json();
-        // rewrite ingredient list
-        const ingredientList = document.getElementById("ingredient-list");
-        yield.textContent = data.servings;
-        write_list(ingredientList, data.ingredients)
-
+       
+        
     });
 });
+
+async function fetchRecipe(scale) {
+    const response = await fetch("/scale-recipe", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            multiplier: scale
+        })
+    });
+    const data = await response.json();
+    return data;
+}
 
 function write_list(element, list, newList = true) {
     // display list of items

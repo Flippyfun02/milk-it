@@ -43,3 +43,7 @@ class ScaleRequest(BaseModel):
 def scale(request: ScaleRequest):
     recipe.scale(request.multiplier)
     return JSONResponse(content=recipe.to_json())
+
+@app.get("/get-recipe")
+def get_recipe():
+    return JSONResponse(content=recipe.to_json())

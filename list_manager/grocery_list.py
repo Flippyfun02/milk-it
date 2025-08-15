@@ -94,7 +94,7 @@ class Recipe(GroceryList):
         for ingredient in self.items.keys():
             # use _ingredients as the base/reference
             self.items[ingredient] = self._ingredients[ingredient] * multiplier
-        self.servings = self._yields * multiplier
+        self.servings = round(self._yields * multiplier, 1)
     
     def to_json(self):
         json = {
