@@ -57,16 +57,12 @@ class GroceryList():
             gl.append(self.items[item])
         return gl
 
+    def reset(self):
+        self.items = {}
+
     def __str__(self):
         """Converts GroceryList to printable"""
-        print("---------------------\nGrocery List \n---------------------")
-        gl = ""
-        if len(self.items) > 0:
-            for item in self.items.keys():
-                gl += f"{self.items[item]}\n"
-            return gl
-        else:
-            return "Empty List"
+        return "\n".join(self.get_items())
         
 class Recipe(GroceryList):
     def __init__(self, url):

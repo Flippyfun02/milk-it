@@ -54,3 +54,12 @@ def add_recipe():
     grocery_list.add_all(recipe.get_items())
     recipe = None
     return JSONResponse(content={ "items": grocery_list.get_items()})
+
+@app.post("/reset-grocery-list")
+def reset_grocery_list():
+    grocery_list.reset()
+    return JSONResponse(content={"items": grocery_list.get_items()})
+
+@app.get("/get-list-as-str")
+def get_list_as_str():
+    return JSONResponse(content={"list": str(grocery_list)})
