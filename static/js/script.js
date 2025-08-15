@@ -33,7 +33,7 @@ goBtn.addEventListener("click", async () => {
         // reveal ingredient container
         document.getElementById("ingredient-container").hidden = false;
         const ingredientList = document.getElementById("ingredient-list");
-        originalYield = parseInt(data.yields.split(" ")[0]);
+        originalYield = parseInt(data.yields);
         yield.textContent = originalYield;
         ingredientList.innerHTML = "";
         // display list of items

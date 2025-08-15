@@ -5,23 +5,21 @@ from recipe_scrapers import scrape_me
 from pint import errors
 import inflect
 
+class UrlError(Exception):
+    def __init__(self, message, status_code):
+        super().__init__(message)
+        self.status_code = status_code
+        
 class GroceryList():
 
     def __init__(self):
         self.items = {}
 
     def search_link(self, url):
-        code = 0
-        if not is_valid_url(url):
-            code = 400 # not a url
-        else:
-            try:
-                recipe = scrape_me(url).to_json()
-                code = 200
-            except:
-                code = 404 # unable to find recipe
-        return recipe, code
-
+        try:
+            return Recipe(url), 200 # success
+        except UrlError as e:
+            return None, e.status_code
 
     def add_all(self, ingredients):
         """Adds list of ingredients to items dictionary"""
@@ -30,7 +28,8 @@ class GroceryList():
     
     def add(self, ingredient):
         """Adds ingredient to items dictionary, accumulates duplicates iff units are compatible"""
-        ingredient = Ingredient(parse_ingredient(ingredient))
+        if not isinstance(ingredient, Ingredient):
+            ingredient = Ingredient(parse_ingredient(ingredient))
         name = ingredient.title
         while True:
             if name not in self.items.keys():
@@ -68,6 +67,47 @@ class GroceryList():
             return gl
         else:
             return "Empty List"
+class Recipe():
+    def __init__(self, url):
+        if not url:
+            raise UrlError("Url is blank", 422)
+        elif not is_valid_url(url):
+            raise UrlError("Invalid url", 400)
+        
+        try:
+            self._json = scrape_me(url).to_json()
+        except Exception:
+            raise UrlError("Unable to find recipe", 404)
+        
+        self.title = self._json["title"]
+        self._ingredients = self.get_ingredients()
+        self._yields = int(self._json["yields"].split(" ")[0])
+
+        self.scaled_ingredients = self._ingredients
+        self.servings = self._yields
+    
+    def get_ingredients(self):
+        ingredient_list = []
+        for ingredient in self._json["ingredients"]:
+            ingredient_list.append(Ingredient(parse_ingredient(ingredient)))
+        return ingredient_list
+    
+    def scale(self, multiplier):
+        for ingredient in self.scaled_ingredients:
+            ingredient = self._base_ingredients * multiplier
+        self.servings *= multiplier
+    
+    def to_json(self):
+        json = {
+            "title": self.title,
+            "ingredients": [],
+            "yields": self._yields,
+            "servings": self.servings
+        }
+        # turn into string list
+        for ingredient in self.scaled_ingredients:
+            json["ingredients"].append(str(ingredient))
+        return json
         
 class Ingredient(dataclasses.ParsedIngredient):
     def __init__(self, i):
@@ -95,9 +135,24 @@ class Ingredient(dataclasses.ParsedIngredient):
         else:
             raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")
         
+        
     def __iadd__(self, other):
         if isinstance(other, Ingredient):
             self.quantity += other.quantity
+            return self
+        else:
+            raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")
+        
+    def __mul__(self, other):
+        if isinstance(other, float):
+            return self.quantity * other.quantity
+        else:
+            raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")
+        
+        
+    def __imul__(self, other):
+        if isinstance(other, float):
+            self.quantity *= other.quantity
             return self
         else:
             raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")

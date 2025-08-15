@@ -8,6 +8,7 @@ from list_manager.grocery_list import GroceryList
 
 app = FastAPI()
 grocery_list = GroceryList()
+recipe = None
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -23,7 +24,11 @@ class RecipeRequest(BaseModel):
 @app.post("/search-recipe")
 def get_ingredients(recipe_url: RecipeRequest):
     recipe, code = grocery_list.search_link(recipe_url.recipe_url)
-    return JSONResponse(content=recipe, status_code=code)
+    print(code)
+    if code == 200:
+        return JSONResponse(content=recipe.to_json(), status_code=code)
+    else:
+        return JSONResponse(content={"ingredients": [], "yields": 0}, status_code=code)
 
 @app.get("/grocery-list")
 def get_grocery_list():
@@ -33,4 +38,5 @@ def get_grocery_list():
 
 @app.post("/scale")
 def scale(multiplier: float):
+    recipe.scale(multiplier)
     return ...
