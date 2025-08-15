@@ -3,7 +3,7 @@ from list_manager.culinary_units import is_valid_unit, UREG
 from ingredient_parser import dataclasses, parse_ingredient
 from recipe_scrapers import scrape_me
 from pint import errors
-import inflect
+import inflect, copy
 
 class UrlError(Exception):
     def __init__(self, message, status_code):
@@ -82,23 +82,19 @@ class Recipe(GroceryList):
         
         super().__init__()
         self.title = self._json["title"]
-        self._ingredients = self._get_ingredients() # list of Ingredients
+        # self._ingredients = self._get_ingredients() # list of Ingredients
         self._yields = int(self._json["yields"].split(" ")[0])
 
         # self.items = dict of title : Ingredient pairs
         self.add_all(self._json["ingredients"])
+        self._ingredients = copy.deepcopy(self.items) # list of Ingredients
         self.servings = self._yields
-    
-    def _get_ingredients(self):
-        ingredient_list = []
-        for ingredient in self._json["ingredients"]:
-            ingredient_list.append(Ingredient(parse_ingredient(ingredient)))
-        return ingredient_list
     
     def scale(self, multiplier):
         for ingredient in self.items.keys():
-            self.items[ingredient] = self._ingredients * multiplier
-        self.servings *= multiplier
+            # use _ingredients as the base/reference
+            self.items[ingredient] = self._ingredients[ingredient] * multiplier
+        self.servings = self._yields * multiplier
     
     def to_json(self):
         json = {
@@ -147,15 +143,17 @@ class Ingredient(dataclasses.ParsedIngredient):
             raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")
         
     def __mul__(self, other):
-        if isinstance(other, float):
-            return self.quantity * other.quantity
+        if isinstance(other, float) or isinstance(other, int):
+            new_instance = copy.deepcopy(self)
+            new_instance.quantity *= other
+            return new_instance
         else:
             raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")
         
         
     def __imul__(self, other):
-        if isinstance(other, float):
-            self.quantity *= other.quantity
+        if isinstance(other, float) or isinstance(other, int):
+            self.quantity *= other
             return self
         else:
             raise TypeError(f"unsupported operand type(s) for + 'Ingredient' and {type(other)}")

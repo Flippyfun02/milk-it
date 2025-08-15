@@ -23,6 +23,7 @@ class RecipeRequest(BaseModel):
 
 @app.post("/search-recipe")
 def get_ingredients(recipe_url: RecipeRequest):
+    global recipe
     recipe, code = grocery_list.search_link(recipe_url.recipe_url)
     if code == 200:
         return JSONResponse(content=recipe.to_json(), status_code=code)
@@ -35,7 +36,10 @@ def get_grocery_list():
     return JSONResponse(content={"items": items}, status_code=
                         status.HTTP_200_OK if items else status.HTTP_404_NOT_FOUND)
 
-@app.post("/scale")
-def scale(multiplier: float):
-    recipe.scale(multiplier)
-    return ...
+class ScaleRequest(BaseModel):
+    multiplier: float
+
+@app.post("/scale-recipe")
+def scale(request: ScaleRequest):
+    recipe.scale(request.multiplier)
+    return JSONResponse(content=recipe.to_json())

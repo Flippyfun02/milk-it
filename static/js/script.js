@@ -1,7 +1,6 @@
 const goBtn = document.getElementById("add-recipe");
 const input = document.getElementById("recipe-url");
 const yield = document.getElementById("servingYield");
-let originalYield = 1;
 
 // when user adds recipe
 goBtn.addEventListener("click", async () => {
@@ -33,16 +32,8 @@ goBtn.addEventListener("click", async () => {
         // reveal ingredient container
         document.getElementById("ingredient-container").hidden = false;
         const ingredientList = document.getElementById("ingredient-list");
-        originalYield = parseInt(data.yields);
-        yield.textContent = originalYield;
-        ingredientList.innerHTML = "";
-        // display list of items
-        for (index in data.ingredients) {
-            let row = document.createElement("li");
-            row.textContent = data.ingredients[index];
-            ingredientList.appendChild(row);
-        }
-        // ingredients.textContent = JSON.stringify(data.ingredients);
+        yield.textContent = data.yields;
+        write_list(ingredientList, data.ingredients)
         recipe_url.value = "";
         input_error.textContent = " ";
     }
@@ -94,11 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // create items
             errorMessage.hidden = true;
             const data = await response.json();
-            for (index in data.ingredients) {
-                let row = document.createElement("li");
-                row.textContent = data.ingredients[index];
-                groceryList.appendChild(row);
-            }
+            write_list(groceryList, data.ingredients)
         }
         else if (response.status === 204) { // empty list
             errorMessage.hidden = false;
@@ -122,10 +109,38 @@ decreaseServingBtn.addEventListener("click", () => {
 
 const radioBtns = document.querySelectorAll(".btn-group .btn-check");
 radioBtns.forEach(btn => {
-    btn.addEventListener("change", () => {
+    btn.addEventListener("change", async () => {
         const checkedBtn = document.querySelector('.btn-group .btn-check:checked');
         const label = document.querySelector(`label[for="${checkedBtn.id}"]`)
         const scale = parseFloat(label.textContent.substring(0, label.textContent.length - 1));
-        yield.textContent = originalYield * scale;
+        
+        const response = await fetch("/scale-recipe", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                multiplier: scale
+            })
+        });
+        const data = await response.json();
+        // rewrite ingredient list
+        const ingredientList = document.getElementById("ingredient-list");
+        yield.textContent = data.servings;
+        write_list(ingredientList, data.ingredients)
+
     });
 });
+
+function write_list(element, list, newList = true) {
+    // display list of items
+    if (newList) {
+        element.innerHTML = "";
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        let row = document.createElement("li");
+        row.textContent = list[i];
+        element.appendChild(row);
+    }
+}
