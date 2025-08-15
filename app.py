@@ -24,7 +24,6 @@ class RecipeRequest(BaseModel):
 @app.post("/search-recipe")
 def get_ingredients(recipe_url: RecipeRequest):
     recipe, code = grocery_list.search_link(recipe_url.recipe_url)
-    print(code)
     if code == 200:
         return JSONResponse(content=recipe.to_json(), status_code=code)
     else:

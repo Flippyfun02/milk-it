@@ -51,7 +51,7 @@ class GroceryList():
             gl.append(str(self.items[item]))
         return gl
     
-    def get_ingredients(self):
+    def _get_ingredients(self):
         gl = []
         for item in self.items.keys():
             gl.append(self.items[item])
@@ -67,7 +67,8 @@ class GroceryList():
             return gl
         else:
             return "Empty List"
-class Recipe():
+        
+class Recipe(GroceryList):
     def __init__(self, url):
         if not url:
             raise UrlError("Url is blank", 422)
@@ -79,22 +80,24 @@ class Recipe():
         except Exception:
             raise UrlError("Unable to find recipe", 404)
         
+        super().__init__()
         self.title = self._json["title"]
-        self._ingredients = self.get_ingredients()
+        self._ingredients = self._get_ingredients() # list of Ingredients
         self._yields = int(self._json["yields"].split(" ")[0])
 
-        self.scaled_ingredients = self._ingredients
+        # self.items = dict of title : Ingredient pairs
+        self.add_all(self._json["ingredients"])
         self.servings = self._yields
     
-    def get_ingredients(self):
+    def _get_ingredients(self):
         ingredient_list = []
         for ingredient in self._json["ingredients"]:
             ingredient_list.append(Ingredient(parse_ingredient(ingredient)))
         return ingredient_list
     
     def scale(self, multiplier):
-        for ingredient in self.scaled_ingredients:
-            ingredient = self._base_ingredients * multiplier
+        for ingredient in self.items.keys():
+            self.items[ingredient] = self._ingredients * multiplier
         self.servings *= multiplier
     
     def to_json(self):
@@ -105,8 +108,8 @@ class Recipe():
             "servings": self.servings
         }
         # turn into string list
-        for ingredient in self.scaled_ingredients:
-            json["ingredients"].append(str(ingredient))
+        for ingredient in self.items.keys():
+            json["ingredients"].append(str(self.items[ingredient]))
         return json
         
 class Ingredient(dataclasses.ParsedIngredient):
