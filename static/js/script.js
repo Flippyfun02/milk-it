@@ -2,7 +2,7 @@ const goBtn = document.getElementById("add-recipe");
 const input = document.getElementById("recipe-url");
 const yield = document.getElementById("servingYield");
 
-// when user adds recipe
+// when user searches a recipe
 goBtn.addEventListener("click", async () => {
     const recipe_url = document.getElementById("recipe-url")
     let url = recipe_url.value;
@@ -78,14 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorMessage = document.querySelector(".modal-body .error-message");
     // detect when modal is about to be shown
     const groceryModal = document.getElementById("groceryListModal");
-    groceryModal.addEventListener("show.bs.modal", async () => {
+    groceryModal.addEventListener("shown.bs.modal", async () => {
         const response = await fetch("/grocery-list");
         groceryList.innerHTML = "";
         if (response.status === 200) {
             // create items
             errorMessage.hidden = true;
             const data = await response.json();
-            write_list(groceryList, data.ingredients)
+            write_list(groceryList, data.items)
         }
         else if (response.status === 204) { // empty list
             errorMessage.hidden = false;
@@ -174,3 +174,14 @@ function write_list(element, list, newList = true) {
         element.appendChild(row);
     }
 }
+
+const addIngredients = document.getElementById("addIngredients");
+addIngredients.addEventListener("click", async () => {
+    await fetch("/add-recipe", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    document.getElementById("ingredient-container").hidden = true;
+})

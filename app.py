@@ -47,3 +47,10 @@ def scale(request: ScaleRequest):
 @app.get("/get-recipe")
 def get_recipe():
     return JSONResponse(content=recipe.to_json())
+
+@app.post("/add-recipe")
+def add_recipe():
+    global recipe
+    grocery_list.add_all(recipe.get_items())
+    recipe = None
+    return JSONResponse(content={ "items": grocery_list.get_items()})
