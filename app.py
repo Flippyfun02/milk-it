@@ -1,5 +1,6 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, Request
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -7,16 +8,20 @@ from pydantic import BaseModel, Field
 from list_manager.grocery_list import GroceryList
 
 app = FastAPI()
+templates = Jinja2Templates(directory="./templates")
+
 grocery_list = GroceryList()
 recipe = None
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
-async def home():
-    html_path = Path("templates/index.html")
-    html_content = html_path.read_text()
-    return HTMLResponse(content=html_content)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/edit", response_class=HTMLResponse)
+async def edit(request: Request):
+    return templates.TemplateResponse("edit.html", {"request": request})
 
 class RecipeRequest(BaseModel):
     recipe_url: str = Field(min_length=1)

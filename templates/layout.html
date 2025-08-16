@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- My Scripts & Stylesheet -->
+    <script src="../static/js/script.js" defer></script>
+    <link rel="stylesheet" href="../static/styles.css"> 
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="../static/images/cowhead.svg">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar-color no-select-text">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><span class="fw-bold">
+                <img src="../static/images/cowhead.svg" width="30" height="30" class="d-inline-block align-text-top" style="margin-right: 10px">
+                milk-it!
+            </span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/">add</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/edit">edit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">attributions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary open-modal" id="open-modal" data-bs-toggle="modal" data-bs-target="#groceryListModal">
+        <i class="fa fa-shopping-cart" style="font-size: 24pt"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="groceryListModal" tabindex="-1" aria-labelledby="groceryListLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 no-select-text" id="groceryListLabel">grocery list</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="error-message no-select-text">Add items to see your list!</p>
+                <ul id="grocery-list" class="list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button id="resetGroceryList" type="button" class="btn btn-danger">
+                    reset
+                </button>
+                <button id="clearGroceryList" type="button" class="btn btn-tertiary">
+                    clear
+                </button>
+                <button id="copyGroceryList" type="button" class="btn btn-primary">
+                    <i class="bi bi-copy" style="-webkit-text-stroke: 1px;"></i> copy 
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
