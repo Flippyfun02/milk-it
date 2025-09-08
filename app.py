@@ -1,7 +1,6 @@
 from fastapi import FastAPI, status, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
-from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -68,3 +67,13 @@ def reset_grocery_list():
 @app.get("/get-list-as-str")
 def get_list_as_str():
     return JSONResponse(content={"list": str(grocery_list)})
+
+class IngredientList(BaseModel):
+    ingredients_list: str
+
+@app.post("/add-ingredients")
+def add_ingredients(request: IngredientList):
+    ingredients_list = request.ingredients_list
+    ingredients = ingredients_list.split("\n")
+    grocery_list.add_all(ingredients)
+    return JSONResponse(content={ "items": grocery_list.get_items()})
