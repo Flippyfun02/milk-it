@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}milk-it!{% endblock %}
 
+{% block scripts %}
+<script src="../static/js/index_script.js" defer></script>
+{% endblock %}
+
 {% block content %}
 <div class="search-container">
     <div class="logo no-select-text">
@@ -44,7 +48,7 @@
                 <li>peaches</li> -->
             </ul>
         </div>
-        <button id="addIngredients" class="btn btn-secondary">add</button>
+        <button id="addRecipe" class="btn btn-secondary">add</button>
     </div>
 </div>
 {% endblock %}

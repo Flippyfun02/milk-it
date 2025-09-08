@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
 {% block title %}edit list{% endblock %}
 
+{% block scripts %}
+<script src="../static/js/edit_script.js" defer></script>
+{% endblock %}
+
 {% block content %}
 <div class="custom-ingredients-container">
     <h1 class="no-select-text">add ingredients</h1>
     <textarea class="form-control write-ingredients" id="customIngredients" rows="3" placeholder="list ingredients"></textarea>
     <button id="addIngredients" class="btn btn-primary" type="button">add</button>
 </div>
-
 {% endblock %}

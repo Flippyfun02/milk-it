@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- My Scripts & Stylesheet -->
-    <script src="../static/js/script.js" defer></script>
+    <script src="../static/js/layout_script.js" defer></script>
+    {% block scripts %}{% endblock %}
+
     <link rel="stylesheet" href="../static/styles.css"> 
 
     <title>{% block title %}{% endblock %}</title>
