@@ -22,6 +22,10 @@ async def home(request: Request):
 async def edit(request: Request):
     return templates.TemplateResponse("edit.html", {"request": request})
 
+@app.get("/about", response_class=HTMLResponse)
+async def edit(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
 class RecipeRequest(BaseModel):
     recipe_url: str = Field(min_length=1)
 

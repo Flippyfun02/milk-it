@@ -285,6 +285,11 @@ body {
 
 .green-bg {
   color: white;
+  background: var(--green);
+}
+
+.green-bg h1 {
+  font-weight: bold;
 }
 
 .servings-btn-bar,
@@ -359,4 +364,53 @@ body {
 .custom-ingredients-container .form-control:focus {
   border-color: var(--outline-green); 
   box-shadow: 0 0 0 0.25rem rgba(148, 193, 32, 0.5);
+}
+
+.about-container {
+  text-align: justify;
+  padding-top: 5%;
+  padding-bottom: 3%;
+}
+
+.attribution-container :link {
+  color: var(--green);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.attribution-container a:visited {
+  color: var(--green);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.attribution-container a:hover {
+  color: var(--outline-green);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.attribution-container a:active {
+  color: var(--click-green);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+#aboutCow {
+  width: 25%;
+  min-width: 100px;
+}
+
+.attribution-container {
+  flex-direction: column;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.attribution-container p {
+  margin-bottom: 5px;
+}
+
+.logo-container {
+  padding-top: 8%;
 }
